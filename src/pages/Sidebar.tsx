@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       </div>
 
       {/* Search Button */}
-      <button className="w-full mt-auto py-[12px] bg-yellow hover:bg-yellow-dark rounded-lg font-bold text-black mt-[20px] border border-blue-dark">
+      <button className="w-full mt-auto py-[12px] bg-yellow hover:bg-yellow-dark rounded-lg font-bold text-black border border-blue-dark">
         SEARCH
       </button>
     </div>
