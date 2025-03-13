@@ -4,7 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 
 interface HeaderProps {
   onToggleSidebar: () => void;
-  toggleTheme: () => void;
+  toggleTheme: () => void; // Ensure toggleTheme is included
   theme: string;
   onSearch: (searchTerm: string) => void; // Prop für die Suchfunktion
 }
@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onSearch }) => {
 
           {/* Light/Dark Mode Toggle */}
           <button
-            onClick={toggleTheme}
+            onClick={toggleTheme} // Call toggleTheme on button click
             className={`w-10 h-10 flex items-center justify-center rounded-full
               ${theme === 'dark' 
                 ? 'bg-gray-200 text-gray-800 hover:bg-gray-300' 
@@ -77,4 +77,3 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar, onSearch }) => {
 };
 
 export default Header;
-

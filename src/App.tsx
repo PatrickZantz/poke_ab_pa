@@ -6,11 +6,16 @@ import { useTheme } from './context/ThemeContext';
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className={`min-h-screen ${theme}`}>
-      <AppContent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      <AppContent 
+        isSidebarOpen={isSidebarOpen} 
+        setIsSidebarOpen={setIsSidebarOpen} 
+        toggleTheme={toggleTheme} 
+        theme={theme} // Pass the current theme
+      />
     </div>
   );
 };
@@ -18,7 +23,9 @@ const App: React.FC = () => {
 const AppContent: React.FC<{
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
-}> = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  toggleTheme: () => void; 
+  theme: string; // Added theme prop
+}> = ({ isSidebarOpen, setIsSidebarOpen, toggleTheme, theme }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -28,15 +35,15 @@ const AppContent: React.FC<{
       <div className="flex flex-col min-h-screen">
         {/* Header */}
         <Header 
-          onToggleSidebar={() => {/* handle sidebar toggle */}} 
-          toggleTheme={() => {/* handle theme toggle */}}
-          theme="light" // or use your theme context
+          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+          toggleTheme={toggleTheme}
+          theme={theme} // Pass the current theme
           onSearch={handleSearch}
         />
 
         {/* Main Content */}
         <main className="flex-1 w-full max-w-4xl px-4 mx-auto mt-8 mb-12">
-        <PokemonList searchTerm={searchTerm}/>
+          <PokemonList searchTerm={searchTerm}/>
         </main>
 
         {/* Sidebar */}
