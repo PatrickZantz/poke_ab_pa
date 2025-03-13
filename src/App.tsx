@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "./components/Header";
-// import Hero from "./pages/Hero";
 import Sidebar from "./pages/Sidebar";
+import { PokemonList } from './components/PokemonList';
+import { useTheme } from './context/ThemeContext';
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState("light");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
-
-  useEffect(() => {
-    document.body.style.backgroundColor = theme === "light" ? "#ccdadd" : "black";
-  }, [theme]);
+  const { theme } = useTheme();
 
   return (
-    <div className={`p-6 min-h-screen ${theme === "dark" ? "text-[#ccdadd]" : "text-black"}`}>
-      {/* Header */}
-      <Header toggleTheme={toggleTheme} theme={theme} onToggleSidebar={() => setIsSidebarOpen(true)} />
+    <div className={`min-h-screen ${theme}`}>
+      <AppContent isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+    </div>
+  );
+};
 
-      {/* Main Content */}
-      <main className="p-4">
-        {/* <Hero /> */}
-      </main>
+const AppContent: React.FC<{
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (open: boolean) => void;
+}> = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300">
+      <div className="flex flex-col min-h-screen">
+        {/* Header */}
+        <Header 
+          onToggleSidebar={() => setIsSidebarOpen(true)} 
+        />
 
-      {/* Sidebar */}
-      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+        {/* Main Content */}
+        <main className="flex-1 w-full max-w-4xl px-4 mx-auto mt-8 mb-12">
+          <PokemonList />
+        </main>
+
+        {/* Sidebar */}
+        {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+      </div>
     </div>
   );
 };

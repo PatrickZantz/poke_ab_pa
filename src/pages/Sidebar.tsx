@@ -1,11 +1,13 @@
 import React from "react";
 import logo from "../assets/logo.png"; // Stelle sicher, dass das Logo korrekt importiert wird
+import { useTheme } from "../context/ThemeContext";
 
 interface SidebarProps {
   onClose: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
+  const { theme } = useTheme();
   const types = [
     { name: "Bug", color: "bg-green-600" },
     { name: "Dark", color: "bg-black" },
@@ -29,32 +31,50 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed top-[0] right-[0] h-full w-[300px] bg-[#ccdadd] shadow-md p-[20px] z-[1000] border-l border-blue-dark">
+    <div className={`fixed top-0 right-0 h-full w-[300px] 
+      bg-white dark:bg-gray-800 shadow-lg p-5 z-[1000] 
+      border-l border-gray-200 dark:border-gray-700
+      transition-colors duration-300`}>
       {/* Close Button */}
       <button
         onClick={onClose}
-        className="absolute top-[10px] right-[10px] text-xl font-bold text-black hover:text-gray-dark"
+        className="absolute top-3 right-3 text-xl font-bold 
+          text-gray-600 dark:text-gray-300 
+          hover:text-gray-800 dark:hover:text-gray-100
+          transition-colors duration-300"
       >
         ✖
       </button>
 
       {/* Pokémon Logo */}
-      <img src={logo} alt="Pokemon Logo" className="mx-auto h-[50px]" />
+      <img src={logo} alt="Pokemon Logo" className="mx-auto h-[50px] mb-6" />
 
       {/* Filter Title */}
-      <h2 className="text-center text-xl font-bold mt-[20px] mb-[20px] text-blue-dark">TYPE</h2>
+      <h2 className="text-center text-xl font-bold mb-6 
+        text-gray-800 dark:text-gray-100
+        transition-colors duration-300">
+        TYPE
+      </h2>
 
       {/* Types */}
-      <div className="grid grid-cols-[repeat(2,_1fr)] gap-[10px]">
+      <div className="grid grid-cols-2 gap-3">
         {types.map((type) => (
-          <button key={type.name} className={`py-[8px] px-[12px] rounded-lg font-semibold capitalize text-white ${type.color}`}>
+          <button 
+            key={type.name} 
+            className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
+              transform transition-transform duration-200 hover:scale-105`}
+          >
             {type.name}
           </button>
         ))}
       </div>
 
       {/* Search Button */}
-      <button className="w-full mt-auto py-[12px] bg-yellow hover:bg-yellow-dark rounded-lg font-bold text-black border border-blue-dark">
+      <button className="w-full mt-6 py-3 bg-amber-400 dark:bg-amber-500
+        hover:bg-amber-500 dark:hover:bg-amber-600
+        rounded-lg font-bold text-gray-900 dark:text-gray-100
+        transition-all duration-300 transform hover:scale-[1.02]
+        border border-amber-500 dark:border-amber-600">
         SEARCH
       </button>
     </div>
