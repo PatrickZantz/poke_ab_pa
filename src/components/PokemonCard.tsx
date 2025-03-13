@@ -61,7 +61,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, onClick }) =>
               rounded-lg shadow-[inset_0_2px_4px_rgba(0,0,0,0.08),0_1px_2px_rgba(255,255,255,0.15)] 
               transition-colors duration-300" />
             <div 
-              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[30%] w-[90%] h-[90%]
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-[90%] h-[90%]
                 before:absolute before:inset-0 before:bg-gradient-to-b before:from-amber-50/30 before:to-transparent before:z-10
                 cursor-pointer transform transition-transform duration-300 hover:scale-105"
               onClick={handleImageClick}
