@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Pokemon } from '../interface/pokemon.types';
 import { PokemonApi } from '../services/pokemonApi';
 import { PokemonCard } from './PokemonCard';
-import { useTheme } from '../context/ThemeContext';
 
-export const PokemonList: React.FC = () => {
+interface PokemonListProps {
+  searchTerm: string; // Neue Prop für den Suchbegriff
+}
+
+export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm }) => {
+
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
-  const { theme } = useTheme();
 
   const pokemonApi = PokemonApi.getInstance();
 
@@ -17,7 +20,7 @@ export const PokemonList: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await pokemonApi.getPokemonList(20, page * 20);
+      const response = await pokemonApi.getPokemonList(200, page * 2000);
       const details = await Promise.all(
         response.results.map(p => pokemonApi.getPokemonDetails(p.name))
       );
@@ -33,6 +36,10 @@ export const PokemonList: React.FC = () => {
   useEffect(() => {
     loadPokemon();
   }, [page]);
+
+  const filteredPokemon = pokemon.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300">
@@ -50,7 +57,7 @@ export const PokemonList: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {pokemon.map((p) => (
+            {filteredPokemon.map((p) => (
               <PokemonCard
                 key={p.id}
                 pokemon={p}

@@ -16,7 +16,7 @@ export const PokemonDetailPopup: React.FC<PokemonDetailPopupProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/40 backdrop-blur-sm p-4">
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-[95vw] h-[90vh] 2xl:w-[1600px] 2xl:h-[1000px]">
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-[80vw] h-[80vh]">
         {/* Close Button */}
         <button
           onClick={onClose}
