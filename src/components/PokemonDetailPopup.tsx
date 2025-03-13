@@ -27,7 +27,7 @@ export const PokemonDetailPopup: React.FC<PokemonDetailPopupProps> = ({
           </svg>
         </button>
 
-        <div className="flex h-full flex-col lg:flex-row">
+        <div className="flex h-full flex-col lg:flex-row overflow-scroll">
           {/* Left Section - Images */}
           <div className="flex-1 p-8 lg:p-12">
             <div className="h-full rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 p-8 dark:from-gray-700 dark:to-gray-900">
@@ -89,7 +89,7 @@ export const PokemonDetailPopup: React.FC<PokemonDetailPopupProps> = ({
                 {pokemon.types.map((type) => (
                   <span
                     key={type.type.name}
-                    className="font-pixel text-lg 2xl:text-xl rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-2 text-white shadow-md transition-transform hover:scale-110"
+                    className="font-pokemon text-lg 2xl:text-xl rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-2 text-white shadow-md transition-transform hover:scale-110"
                   >
                     {type.type.name}
                   </span>
@@ -128,7 +128,7 @@ export const PokemonDetailPopup: React.FC<PokemonDetailPopupProps> = ({
                 {pokemon.abilities.map((ability) => (
                   <span
                     key={ability.ability.name}
-                    className="font-pixel text-lg 2xl:text-xl rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-2 text-white shadow-md transition-transform hover:scale-110"
+                    className="font-pokemon text-lg 2xl:text-xl rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-2 text-white shadow-md transition-transform hover:scale-110"
                   >
                     {ability.ability.name.replace('-', ' ')}
                   </span>
