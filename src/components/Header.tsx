@@ -12,8 +12,13 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   return (
     <header className="w-full bg-white dark:bg-gray-800 transition-colors duration-300">
       <div className="flex flex-col items-center pt-6">
-        {/* Logo */}
-        <img src={logo} alt="Pokemon Logo" className="h-16 mb-6" />
+        {/* Logo with onClick to go home */}
+        <img
+          src={logo}
+          alt="Pokemon Logo"
+          className="h-22 mb-8 cursor-pointer"
+          onClick={() => (window.location.href = "/")} // Redirects to homepage
+        />
 
         {/* Navigation Row */}
         <div className="flex items-center w-full max-w-4xl px-4 mb-4">

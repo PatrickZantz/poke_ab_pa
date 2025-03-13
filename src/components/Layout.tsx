@@ -18,12 +18,6 @@ const Layout: React.FC<LayoutProps> = ({ toggleTheme, theme }) => {
         toggleTheme={toggleTheme}
         theme={theme}
       />
-
-      {/* Main Content */}
-      <main className="p-4">
-        {/* <Hero /> */}
-      </main>
-
       {/* Sidebar */}
       {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
     </div>
