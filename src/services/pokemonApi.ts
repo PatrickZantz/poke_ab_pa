@@ -1,3 +1,17 @@
+/**
+ * PokemonApi Service
+ * 
+ * A singleton service class that handles all API interactions with the PokeAPI.
+ * Provides methods for fetching Pokemon lists, details, and searching Pokemon.
+ * 
+ * @class
+ * @example
+ * ```typescript
+ * const api = PokemonApi.getInstance();
+ * const pokemon = await api.getPokemonDetails('pikachu');
+ * ```
+ */
+
 import axios from 'axios';
 import { Pokemon, PokemonList } from '../interface/pokemon.types';
 
@@ -5,8 +19,11 @@ const BASE_URL = 'https://pokeapi.co/api/v2';
 
 export class PokemonApi {
   private static instance: PokemonApi;
-  private constructor() {}
 
+  /**
+   * Gets the singleton instance of PokemonApi
+   * @returns PokemonApi instance
+   */
   public static getInstance(): PokemonApi {
     if (!PokemonApi.instance) {
       PokemonApi.instance = new PokemonApi();
@@ -15,9 +32,10 @@ export class PokemonApi {
   }
 
   /**
-   * Get a list of Pokemon with pagination
-   * @param limit Number of Pokemon to fetch
-   * @param offset Number of Pokemon to skip
+   * Fetches a list of Pokemon from the API
+   * @param limit - Maximum number of Pokemon to fetch
+   * @param offset - Number of Pokemon to skip
+   * @returns Promise containing the Pokemon list response
    */
   async getPokemonList(limit: number = 20, offset: number = 0): Promise<PokemonList> {
     try {
@@ -32,22 +50,26 @@ export class PokemonApi {
   }
 
   /**
-   * Get detailed information about a specific Pokemon
-   * @param idOrName Pokemon ID or name
+   * Fetches detailed information about a specific Pokemon
+   * @param name - Name or ID of the Pokemon
+   * @returns Promise containing the Pokemon details
    */
-  async getPokemonDetails(idOrName: number | string): Promise<Pokemon> {
+  async getPokemonDetails(name: string): Promise<Pokemon> {
     try {
-      const response = await axios.get<Pokemon>(`${BASE_URL}/pokemon/${idOrName}`);
+      const response = await axios.get<Pokemon>(
+        `${BASE_URL}/pokemon/${name.toLowerCase()}`
+      );
       return response.data;
     } catch (error) {
-      console.error(`Error fetching Pokemon ${idOrName}:`, error);
+      console.error(`Error fetching Pokemon details for ${name}:`, error);
       throw error;
     }
   }
 
   /**
-   * Search for Pokemon by name
-   * @param name Pokemon name to search for
+   * Searches for Pokemon by name
+   * @param name - Search term to match against Pokemon names
+   * @returns Promise containing an array of matching Pokemon
    */
   async searchPokemon(name: string): Promise<Pokemon[]> {
     try {

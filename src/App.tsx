@@ -14,7 +14,7 @@ const App: React.FC = () => {
         isSidebarOpen={isSidebarOpen} 
         setIsSidebarOpen={setIsSidebarOpen} 
         toggleTheme={toggleTheme} 
-        theme={theme} // Pass the current theme
+        theme={theme}
       />
     </div>
   );
@@ -24,12 +24,19 @@ const AppContent: React.FC<{
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
   toggleTheme: () => void; 
-  theme: string; // Added theme prop
+  theme: string;
 }> = ({ isSidebarOpen, setIsSidebarOpen, toggleTheme, theme }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
   };
+
+  const handleFilter = (type: string | null) => {
+    setSelectedType(type);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300">
       <div className="flex flex-col min-h-screen">
@@ -37,17 +44,25 @@ const AppContent: React.FC<{
         <Header 
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
           toggleTheme={toggleTheme}
-          theme={theme} // Pass the current theme
+          theme={theme}
           onSearch={handleSearch}
         />
 
         {/* Main Content */}
         <main className="flex-1 w-full max-w-4xl px-4 mx-auto mt-8 mb-12">
-          <PokemonList searchTerm={searchTerm}/>
+          <PokemonList 
+            searchTerm={searchTerm}
+            selectedType={selectedType}
+          />
         </main>
 
         {/* Sidebar */}
-        {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+        {isSidebarOpen && (
+          <Sidebar 
+            onClose={() => setIsSidebarOpen(false)} 
+            onFilter={handleFilter}
+          />
+        )}
       </div>
     </div>
   );

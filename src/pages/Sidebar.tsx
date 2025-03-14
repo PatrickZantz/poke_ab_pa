@@ -4,9 +4,10 @@ import { useTheme } from "../context/ThemeContext";
 
 interface SidebarProps {
   onClose: () => void;
+  onFilter: (type: string | null) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onClose, onFilter }) => {
   const [selectedType, setSelectedType] = useState<string | null>(null); // State to manage selected type
   const { theme } = useTheme();
   const types = [
@@ -30,6 +31,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
     { name: "Steel", color: "bg-gray-600" },
     { name: "Water", color: "bg-blue-500" },
   ];
+
+  const handleTypeSelect = (type: string) => {
+    setSelectedType(type);
+  };
+
+  const handleSearch = () => {
+    onFilter(selectedType);
+  };
 
   return (
     <div className={`fixed top-0 right-0 h-full w-[300px] 
@@ -61,10 +70,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       <div className="grid grid-cols-2 gap-3">
         {types.map((type) => (
           <button
-            onClick={() => { setSelectedType(type.name); /* Add logic to filter Pokémon by type */ }} 
+            onClick={() => handleTypeSelect(type.name)}
             key={type.name} 
             className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
-              transform transition-transform duration-200 hover:scale-105`}
+              transform transition-transform duration-200 hover:scale-105
+              ${selectedType === type.name ? 'ring-2 ring-white ring-opacity-50 border-8 outline-2 outline-blue-500/100 focus:border-white border-double' : ''}`}
           >
             {type.name}
           </button>
@@ -78,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
         rounded-lg font-bold text-gray-900 dark:text-gray-100
         transition-all duration-300 transform hover:scale-[1.02]
         border border-amber-500 dark:border-amber-600"
-        onClick={() => { /* Add logic to search Pokémon by selectedType */ }}
+        onClick={handleSearch}
       >
         SEARCH
       </button>
