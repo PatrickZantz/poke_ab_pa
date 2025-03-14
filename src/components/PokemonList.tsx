@@ -21,21 +21,13 @@ import { PokemonCard } from './PokemonCard';
 import { useTheme } from '../context/ThemeContext';
 
 interface PokemonListProps {
-<<<<<<< HEAD
   /** Search term to filter Pokemon by name */
   searchTerm: string;
   /** Selected type to filter Pokemon by type */
-=======
-  searchTerm: string; // Neue Prop für den Suchbegriff
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
   selectedType: string | null;
 }
 
 export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedType }) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,32 +36,11 @@ export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedTy
 
   const pokemonApi = PokemonApi.getInstance();
 
-<<<<<<< HEAD
   /**
    * Loads Pokemon data from the API
    * Fetches a list of Pokemon and their details
    * Handles loading states and error states
    */
-  const loadPokemon = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await pokemonApi.getPokemonList(200, page * 2000);
-      const details = await Promise.all(
-        response.results.map(p => pokemonApi.getPokemonDetails(p.name))
-      );
-      setPokemon(details);
-    } catch (err) {
-      setError('Failed to load Pokemon. Please try again later.');
-      console.error('Error loading Pokemon:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Load Pokemon when page changes
-=======
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
   useEffect(() => {
     const loadPokemon = async () => {
       try {
@@ -77,15 +48,6 @@ export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedTy
         setError(null);
         let pokemonList: Pokemon[];
 
-<<<<<<< HEAD
-  /**
-   * Filters Pokemon based on search term and selected type
-   * @returns Filtered array of Pokemon
-   */
-  const filteredPokemon = pokemon.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = !selectedType || p.types.some(type => type.type.name.toLowerCase() === selectedType.toLowerCase());
-=======
         if (selectedType) {
           const response = await pokemonApi.getPokemonList(200, 20);
           const allPokemon = await Promise.all(
@@ -113,10 +75,13 @@ export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedTy
     loadPokemon();
   }, [selectedType]);
 
+  /**
+   * Filters Pokemon based on search term and selected type
+   * @returns Filtered array of Pokemon
+   */
   const filteredPokemon = pokemon.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = selectedType ? p.types.some(t => t.type.name === selectedType) : true;
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
+    const matchesType = !selectedType || p.types.some(type => type.type.name.toLowerCase() === selectedType.toLowerCase());
     return matchesSearch && matchesType;
   });
 
@@ -179,4 +144,4 @@ export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedTy
       )}
     </div>
   );
-}; 
+};

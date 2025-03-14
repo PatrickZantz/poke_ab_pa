@@ -1,29 +1,16 @@
+import React, { useState } from "react"; // Ensure React and useState are imported correctly
 import logo from "../assets/logo.png"; // Ensure the logo is imported correctly
+import { useTheme } from '../context/ThemeContext'; // Ensure useTheme is imported correctly
 
 interface SidebarProps {
   onClose: () => void;
-<<<<<<< HEAD
-  onFilter: (type: string | null) => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onClose, onFilter }) => {
-  const [selectedType, setSelectedType] = useState<string | null>(null); // State to manage selected type
-  const { theme } = useTheme();
-=======
   onTypeSelect: (type: string) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onClose, onTypeSelect }) => {
+  const [selectedType, setSelectedType] = useState<string | null>(null); // State to manage selected type
+  const { theme } = useTheme();
 
-  const handleTypeClick = (type: string) => {
-    if (typeof onTypeSelect === 'function') {
-      onTypeSelect(type);
-    } else {
-      console.error('onTypeSelect is not a function');
-    }
-  };
-
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
   const types = [
     { name: "Bug", color: "bg-green-600" },
     { name: "Dark", color: "bg-black" },
@@ -46,12 +33,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, onTypeSelect }) => {
     { name: "Water", color: "bg-blue-500" },
   ];
 
-  const handleTypeSelect = (type: string) => {
+  const handleTypeClick = (type: string) => {
     setSelectedType(type);
-  };
-
-  const handleSearch = () => {
-    onFilter(selectedType);
+    onTypeSelect(type);
   };
 
   return (
@@ -82,49 +66,18 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, onTypeSelect }) => {
 
       {/* Types */}
       <div className="grid grid-cols-2 gap-3">
-<<<<<<< HEAD
         {types.map((type) => (
           <button
-            onClick={() => handleTypeSelect(type.name)}
+            onClick={() => handleTypeClick(type.name)}
             key={type.name} 
             className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
-              transform transition-transform duration-200 hover:scale-105
-              ${selectedType === type.name ? 'ring-2 ring-white ring-opacity-50 border-8 outline-2 outline-blue-500/100 focus:border-white border-double' : ''}`}
+              transform transition-transform duration-200 hover:scale-105`}
           >
             {type.name}
           </button>
         ))}
       </div>
-=======
-          {types.map((type) => (
-            <button
-              onClick={() => handleTypeClick(type.name)}
-              key={type.name} 
-              className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
-                transform transition-transform duration-200 hover:scale-105`}
-            >
-              {type.name}
-            </button>
-          ))}
-       </div>
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
-
-      {/* Search Button */}
-      {/* <button 
-        className="w-full mt-6 py-3 bg-amber-400 dark:bg-amber-500
-        hover:bg-amber-500 dark:hover:bg-amber-600
-        rounded-lg font-bold text-gray-900 dark:text-gray-100
-        transition-all duration-300 transform hover:scale-[1.02]
-        border border-amber-500 dark:border-amber-600"
-<<<<<<< HEAD
-        onClick={handleSearch}
-=======
-        onClick={() => { }}
->>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
-      >
-        SEARCH
-      </button> */}
-    </div> // Ensure this div is properly closed
+    </div>
   );
 };
 
