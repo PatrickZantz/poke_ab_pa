@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "../pages/Sidebar";
-import { PokemonList } from "./PokemonList"; // Importieren Sie die PokemonList-Komponente
+import { PokemonList } from "./PokemonList";
 
 interface LayoutProps {
   toggleTheme: () => void;
@@ -11,9 +11,15 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ toggleTheme, theme }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
+  };
+
+  const handleTypeSelect = (type: string) => {
+    console.log('Type selected:', type); // Debugging
+    setSelectedType(type);
   };
 
   return (
@@ -22,11 +28,16 @@ const Layout: React.FC<LayoutProps> = ({ toggleTheme, theme }) => {
         onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         toggleTheme={toggleTheme}
         theme={theme}
-        onSearch={handleSearch} // Übergeben Sie die Suchfunktion an den Header
+        onSearch={handleSearch}
       />
-      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+      {isSidebarOpen && (
+        <Sidebar 
+          onClose={() => setIsSidebarOpen(false)} 
+          onTypeSelect={handleTypeSelect}
+        />
+      )}
       <main className="container mx-auto px-4 py-8">
-        <PokemonList searchTerm={searchTerm} /> {/* Fügen Sie die PokemonList-Komponente hinzu */}
+        <PokemonList searchTerm={searchTerm} selectedType={selectedType} />
       </main>
     </div>
   );

@@ -68,4 +68,15 @@ export class PokemonApi {
       throw error;
     }
   }
+
+  async getAllPokemonTypes(): Promise<string[]> {
+    try {
+      const response = await axios.get<{ results: { name: string }[] }>(`${BASE_URL}/type`);
+      return response.data.results.map(type => type.name);
+    } catch (error) {
+      console.error('Error fetching Pokemon types:', error);
+      throw error;
+    }
+  }
 } 
+

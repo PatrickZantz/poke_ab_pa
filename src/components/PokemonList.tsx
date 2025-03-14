@@ -5,9 +5,10 @@ import { PokemonCard } from './PokemonCard';
 
 interface PokemonListProps {
   searchTerm: string; // Neue Prop für den Suchbegriff
+  selectedType: string | null;
 }
 
-export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm }) => {
+export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm, selectedType }) => {
 
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,30 +17,45 @@ export const PokemonList: React.FC<PokemonListProps> = ({ searchTerm }) => {
 
   const pokemonApi = PokemonApi.getInstance();
 
-  const loadPokemon = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await pokemonApi.getPokemonList(200, page * 2000);
-      const details = await Promise.all(
-        response.results.map(p => pokemonApi.getPokemonDetails(p.name))
-      );
-      setPokemon(details);
-    } catch (err) {
-      setError('Failed to load Pokemon. Please try again later.');
-      console.error('Error loading Pokemon:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    loadPokemon();
-  }, [page]);
+    const loadPokemon = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        let pokemonList: Pokemon[];
 
-  const filteredPokemon = pokemon.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+        if (selectedType) {
+          const response = await pokemonApi.getPokemonList(200, 20);
+          const allPokemon = await Promise.all(
+            response.results.map(p => pokemonApi.getPokemonDetails(p.name))
+          );
+          pokemonList = allPokemon.filter(p => 
+            p.types.some(t => t.type.name.toLowerCase() === selectedType.toLowerCase())
+          );
+        } else {
+          const response = await pokemonApi.getPokemonList(200, 20);
+          pokemonList = await Promise.all(
+            response.results.map(p => pokemonApi.getPokemonDetails(p.name))
+          );
+        }
+
+        setPokemon(pokemonList);
+      } catch (err) {
+        setError('Failed to load Pokemon. Please try again later.');
+        console.error('Error loading Pokemon:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPokemon();
+  }, [selectedType]);
+
+  const filteredPokemon = pokemon.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = selectedType ? p.types.some(t => t.type.name === selectedType) : true;
+    return matchesSearch && matchesType;
+  });
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all duration-300">

@@ -1,14 +1,20 @@
-import React, { useState } from "react"; // Import useState
 import logo from "../assets/logo.png"; // Ensure the logo is imported correctly
-import { useTheme } from "../context/ThemeContext";
 
 interface SidebarProps {
   onClose: () => void;
+  onTypeSelect: (type: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
-  const [selectedType, setSelectedType] = useState<string | null>(null); // State to manage selected type
-  const { theme } = useTheme();
+const Sidebar: React.FC<SidebarProps> = ({ onClose, onTypeSelect }) => {
+
+  const handleTypeClick = (type: string) => {
+    if (typeof onTypeSelect === 'function') {
+      onTypeSelect(type);
+    } else {
+      console.error('onTypeSelect is not a function');
+    }
+  };
+
   const types = [
     { name: "Bug", color: "bg-green-600" },
     { name: "Dark", color: "bg-black" },
@@ -59,29 +65,29 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
 
       {/* Types */}
       <div className="grid grid-cols-2 gap-3">
-        {types.map((type) => (
-          <button
-            onClick={() => { setSelectedType(type.name); /* Add logic to filter Pokémon by type */ }} 
-            key={type.name} 
-            className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
-              transform transition-transform duration-200 hover:scale-105`}
-          >
-            {type.name}
-          </button>
-        ))}
-      </div>
+          {types.map((type) => (
+            <button
+              onClick={() => handleTypeClick(type.name)}
+              key={type.name} 
+              className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
+                transform transition-transform duration-200 hover:scale-105`}
+            >
+              {type.name}
+            </button>
+          ))}
+       </div>
 
       {/* Search Button */}
-      <button 
+      {/* <button 
         className="w-full mt-6 py-3 bg-amber-400 dark:bg-amber-500
         hover:bg-amber-500 dark:hover:bg-amber-600
         rounded-lg font-bold text-gray-900 dark:text-gray-100
         transition-all duration-300 transform hover:scale-[1.02]
         border border-amber-500 dark:border-amber-600"
-        onClick={() => { /* Add logic to search Pokémon by selectedType */ }}
+        onClick={() => { }}
       >
         SEARCH
-      </button>
+      </button> */}
     </div> // Ensure this div is properly closed
   );
 };
