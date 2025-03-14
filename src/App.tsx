@@ -33,14 +33,18 @@ const AppContent: React.FC<{
     setSearchTerm(term);
   };
 
+<<<<<<< HEAD
   const handleFilter = (type: string | null) => {
+=======
+  const handleTypeSelect = (type: string) => {
+    console.log('Type selected:', type); // Debugging
+>>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
     setSelectedType(type);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-300">
       <div className="flex flex-col min-h-screen">
-        {/* Header */}
         <Header 
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
           toggleTheme={toggleTheme}
@@ -48,8 +52,8 @@ const AppContent: React.FC<{
           onSearch={handleSearch}
         />
 
-        {/* Main Content */}
         <main className="flex-1 w-full max-w-4xl px-4 mx-auto mt-8 mb-12">
+<<<<<<< HEAD
           <PokemonList 
             searchTerm={searchTerm}
             selectedType={selectedType}
@@ -61,6 +65,15 @@ const AppContent: React.FC<{
           <Sidebar 
             onClose={() => setIsSidebarOpen(false)} 
             onFilter={handleFilter}
+=======
+          <PokemonList searchTerm={searchTerm} selectedType={selectedType} />
+        </main>
+
+        {isSidebarOpen && (
+          <Sidebar 
+            onClose={() => setIsSidebarOpen(false)} 
+            onTypeSelect={handleTypeSelect}
+>>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
           />
         )}
       </div>

@@ -1,15 +1,29 @@
-import React, { useState } from "react"; // Import useState
 import logo from "../assets/logo.png"; // Ensure the logo is imported correctly
-import { useTheme } from "../context/ThemeContext";
 
 interface SidebarProps {
   onClose: () => void;
+<<<<<<< HEAD
   onFilter: (type: string | null) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onClose, onFilter }) => {
   const [selectedType, setSelectedType] = useState<string | null>(null); // State to manage selected type
   const { theme } = useTheme();
+=======
+  onTypeSelect: (type: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onClose, onTypeSelect }) => {
+
+  const handleTypeClick = (type: string) => {
+    if (typeof onTypeSelect === 'function') {
+      onTypeSelect(type);
+    } else {
+      console.error('onTypeSelect is not a function');
+    }
+  };
+
+>>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
   const types = [
     { name: "Bug", color: "bg-green-600" },
     { name: "Dark", color: "bg-black" },
@@ -68,6 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, onFilter }) => {
 
       {/* Types */}
       <div className="grid grid-cols-2 gap-3">
+<<<<<<< HEAD
         {types.map((type) => (
           <button
             onClick={() => handleTypeSelect(type.name)}
@@ -80,18 +95,35 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, onFilter }) => {
           </button>
         ))}
       </div>
+=======
+          {types.map((type) => (
+            <button
+              onClick={() => handleTypeClick(type.name)}
+              key={type.name} 
+              className={`py-2 px-4 rounded-lg font-semibold capitalize text-white ${type.color}
+                transform transition-transform duration-200 hover:scale-105`}
+            >
+              {type.name}
+            </button>
+          ))}
+       </div>
+>>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
 
       {/* Search Button */}
-      <button 
+      {/* <button 
         className="w-full mt-6 py-3 bg-amber-400 dark:bg-amber-500
         hover:bg-amber-500 dark:hover:bg-amber-600
         rounded-lg font-bold text-gray-900 dark:text-gray-100
         transition-all duration-300 transform hover:scale-[1.02]
         border border-amber-500 dark:border-amber-600"
+<<<<<<< HEAD
         onClick={handleSearch}
+=======
+        onClick={() => { }}
+>>>>>>> 0c60d181e6b2c11da1989576be13f3de3447448b
       >
         SEARCH
-      </button>
+      </button> */}
     </div> // Ensure this div is properly closed
   );
 };
